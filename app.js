@@ -27,6 +27,8 @@ let users = [
   {username: "David", password: "password", visits: 0}
 ];
 
+let messages = [];
+
 
 app.get("/", function(req, res){
   if(!req.session.username){
@@ -39,6 +41,40 @@ app.get("/", function(req, res){
 
 app.get("/login", function(req, res){
   res.render("login");
+});
+
+app.post("/login", function(req, res){
+  messages = [];
+  //Validate username and password
+  req.checkBody("username", "Please enter a username before you log in.").notEmpty();
+  req.checkBody("password", "Please enter a password before you log in.").notEmpty();
+
+  let errors = req.validationErrors();
+
+  if(errors){
+    errors.forEach(function(error){
+      messages.push(error.msg);
+    });
+    res.render("login",{errors: messages});
+  }
+  else{
+    //Check username and password
+    let loggedUser;
+    users.forEach(function(user){
+      if(user.username === req.body.username){
+        loggedUser = user;
+      }
+    });
+
+    if(loggedUser){
+      req.session.username = req.body.username;
+      res.redirect("/");
+    }
+    else{
+      messages.push("Invalid username/password.");
+      res.render("login", {errors: messages} );
+    }
+  }
 });
 
 app.listen(3000, function(){

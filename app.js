@@ -23,8 +23,22 @@ app.use(session({
   saveUninitialized: false
 }));
 
+let users = [
+  {username: "David", password: "password", visits: 0}
+];
+
+
 app.get("/", function(req, res){
-  res.send("Hello there!");
+  if(!req.session.username){
+    res.redirect("/login");
+  }
+  else{
+    res.send("You are logged in!");
+  }
+});
+
+app.get("/login", function(req, res){
+  res.render("login");
 });
 
 app.listen(3000, function(){

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const validator = require('express-validator');
 const session = require('express-session');
 const path = require('path');
+const jsonfile = require('jsonfile');
 
 const app = express();
 
@@ -23,9 +24,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
-let users = [
-  {username: "David", password: "password", visits: 0, id: 0}
-];
+// let users = [
+//   {username: "David", password: "password", visits: 0, id: 0}
+// ];
+
+let data = {};
+
+jsonfile.readFile('users.json',function(err,obj){
+  data.users = obj.users;
+});
 
 let messages = [];
 
@@ -35,13 +42,12 @@ app.get("/", function(req, res){
     res.redirect("/login");
   }
   else{
-    users[req.session.userid].visits++;
-    res.render('index', {user: users[req.session.userid].username, clicks: users[req.session.userid].visits});
+    data.users[req.session.userid].visits++;
+    res.render('index', {user: data.users[req.session.userid].username, clicks: data.users[req.session.userid].visits});
   }
 });
 
 app.post("/", function(req, res){
-  console.log(req.body);
   if(req.body.button = "logout"){
     req.session.destroy(function(err){
       console.error(err);
@@ -71,7 +77,7 @@ app.post("/login", function(req, res){
   else{
     //Check username and password
     let loggedUser;
-    users.forEach(function(user){
+    data.users.forEach(function(user){
       if(user.username === req.body.username){
         loggedUser = user;
       }
@@ -90,7 +96,6 @@ app.post("/login", function(req, res){
 
 app.post("/signup", function(req, res){
   messages = [];
-  console.log("User info received: ", req.body);
   //Validate input
   req.checkBody("username", "Please enter a username to sign up.").notEmpty();
   req.checkBody("password", "Please enter a password to sign up.").notEmpty();
@@ -106,7 +111,7 @@ app.post("/signup", function(req, res){
   else{
     //Check if a user exists
     let existingUser = false;
-    users.forEach(function(user){
+    data.users.forEach(function(user){
       if (user.username === req.body.username){
         existingUser = true;
       }
@@ -118,14 +123,16 @@ app.post("/signup", function(req, res){
     //Create new user and add to users file
     let newUser= {
       username: req.body.username,
-      password: req.body.username,
+      password: req.body.password,
       visits: 0,
-      id: users.length
+      id: data.users.length
     }
 
-    console.log("New user created: ",newUser);
-    users.push(newUser);
-    messages.push("Created a new account.  Username: " + newUser.username)
+    data.users.push(newUser);
+    messages.push("Created a new account.  Username: " + newUser.username);
+    jsonfile.writeFile('users.json',data, function(err){
+      console.error(err);
+    })
 
     //Reload /login with success message
     res.render("login", {messages: messages});

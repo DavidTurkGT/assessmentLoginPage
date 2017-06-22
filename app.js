@@ -88,6 +88,51 @@ app.post("/login", function(req, res){
   }
 });
 
+app.post("/signup", function(req, res){
+  messages = [];
+  console.log("User info received: ", req.body);
+  //Validate input
+  req.checkBody("username", "Please enter a username to sign up.").notEmpty();
+  req.checkBody("password", "Please enter a password to sign up.").notEmpty();
+
+  let errors = req.validationErrors();
+
+  if(errors){
+    errors.forEach(function(error){
+      messages.push(error.msg);
+    });
+    res.render("login", {errors: messages})
+  }
+  else{
+    //Check if a user exists
+    let existingUser = false;
+    users.forEach(function(user){
+      if (user.username === req.body.username){
+        existingUser = true;
+      }
+    });
+    if(existingUser){
+      messages.push("Username already taken.");
+      res.render("login", {errors: messages});
+    }
+    //Create new user and add to users file
+    let newUser= {
+      username: req.body.username,
+      password: req.body.username,
+      visits: 0,
+      id: users.length
+    }
+
+    console.log("New user created: ",newUser);
+    users.push(newUser);
+    messages.push("Created a new account.  Username: " + newUser.username)
+
+    //Reload /login with success message
+    res.render("login", {messages: messages});
+
+  }
+});
+
 app.listen(3000, function(){
   console.log("App running on localhost:3000")
 });

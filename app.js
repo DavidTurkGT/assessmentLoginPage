@@ -24,18 +24,20 @@ app.use(session({
 }));
 
 let users = [
-  {username: "David", password: "password", visits: 0}
+  {username: "David", password: "password", visits: 0, id: 0}
 ];
 
 let messages = [];
 
 
 app.get("/", function(req, res){
-  if(!req.session.username){
+  console.log(req.session.userid);
+  if(req.session.userid === undefined){
     res.redirect("/login");
   }
   else{
-    res.render('index', {user: req.session.username});
+    users[req.session.userid].visits++;
+    res.render('index', {user: users[req.session.userid].username, clicks: users[req.session.userid].visits});
   }
 });
 
@@ -67,7 +69,7 @@ app.post("/login", function(req, res){
     });
 
     if(loggedUser){
-      req.session.username = req.body.username;
+      req.session.userid = loggedUser.id;
       res.redirect("/");
     }
     else{

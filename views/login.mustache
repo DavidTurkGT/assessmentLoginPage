@@ -5,16 +5,18 @@
     <title>Login</title>
   </head>
   <body>
-    <h1>Login</h1>
-    <div class="errors">
-      {{#errors}}
-      <p>{{.}}</p>
-      {{/errors}}
+    <div class="container">
+      <h1>Login</h1>
+      <div class="errors">
+        {{#errors}}
+        <p>{{.}}</p>
+        {{/errors}}
+      </div>
+      <form class="login" action="/login" method="post">
+        <input type="text" name="username" value="" placeholder="Username">
+        <input type="password" name="password" value="" placeholder="Password">
+        <button type="sumbit">Login</button>
+      </form>
     </div>
-    <form class="login" action="/login" method="post">
-      <input type="text" name="username" value="" placeholder="Username">
-      <input type="password" name="password" value="" placeholder="Password">
-      <button type="sumbit">Login</button>
-    </form>
   </body>
 </html>

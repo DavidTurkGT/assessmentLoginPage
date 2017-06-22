@@ -3,10 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Login</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://fonts.googleapis.com/css?family=Condiment|Rock+Salt" rel="stylesheet">
   </head>
   <body>
     <div class="container">
-      <h1>Login</h1>
+      <h1>Totally Rad Secret Website</h1>
+      <h3>Login to View the Awesomeness</h3>
 
       <div class="errors">
         {{#errors}}
@@ -23,9 +27,11 @@
       <div class="login-container">
         <form class="login" action="/login" method="post">
           <fieldset>
-            <legend>Login</legend>
-            <input type="text" name="username" value="" placeholder="Username">
-            <input type="password" name="password" value="" placeholder="Password">
+            <legend id="login">Login</legend>
+            <div class="login-inputs">
+              <input type="text" name="username" value="" placeholder="Username">
+              <input type="password" name="password" value="" placeholder="Password">
+            </div>
             <button type="sumbit">Login</button>
           </fieldset>
         </form>
@@ -34,9 +40,11 @@
       <div class="signup-container">
         <form class="signup" action="/signup" method="post">
           <fieldset>
-            <legend>Sign Up</legend>
-            <input type="text" name="username" value="" placeholder="Username">
-            <input type="password" name="password" value="" placeholder="Password">
+            <legend id="signup">Sign Up</legend>
+            <div class="signup-inputs">
+              <input type="text" name="username" value="" placeholder="Username">
+              <input type="password" name="password" value="" placeholder="Password">
+            </div>
             <button type="submit">Sign Up</button>
           </fieldset>
         </form>

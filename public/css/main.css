@@ -1,0 +1,27 @@
+/*font-family: 'Rock Salt', cursive; (Headings and Titles)
+font-family: 'Condiment', cursive; (Plain text)*/
+
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #E9078C, yellow, #E9078C);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container{
+  background-image: url("../img/90sCup.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 75vw;
+  height: auto;
+  margin:auto;
+  margin-left: 5rem;
+  box-shadow: 0px, 5px;
+  border-radius: 30%;
+}

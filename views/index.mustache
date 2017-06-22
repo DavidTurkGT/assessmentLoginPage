@@ -3,13 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>Home</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://fonts.googleapis.com/css?family=Condiment|Rock+Salt" rel="stylesheet">
   </head>
   <body>
-    <h1>Hello {{user}}</h1>
-    <h3>You have visited the site {{clicks}} times</h3>
+    <div class="container">
+      <h1>Hello {{user}}</h1>
+      <h3>You have visited the site {{clicks}} times</h3>
 
-    <form class="" action="/" method="post">
-      <button type="submit" name="button" value="logout">Log Out</button>
-    </form>
+      <div class="logout">
+        <form class="" action="/" method="post">
+          <button type="submit" name="button" value="logout">Log Out</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

@@ -35,7 +35,7 @@ app.get("/", function(req, res){
     res.redirect("/login");
   }
   else{
-    res.send("You are logged in!");
+    res.render('index', {user: req.session.username});
   }
 });
 

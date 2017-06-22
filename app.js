@@ -31,7 +31,6 @@ let messages = [];
 
 
 app.get("/", function(req, res){
-  console.log(req.session.userid);
   if(req.session.userid === undefined){
     res.redirect("/login");
   }
@@ -39,6 +38,16 @@ app.get("/", function(req, res){
     users[req.session.userid].visits++;
     res.render('index', {user: users[req.session.userid].username, clicks: users[req.session.userid].visits});
   }
+});
+
+app.post("/", function(req, res){
+  console.log(req.body);
+  if(req.body.button = "logout"){
+    req.session.destroy(function(err){
+      console.error(err);
+    });
+  }
+  res.redirect("/");
 });
 
 app.get("/login", function(req, res){
